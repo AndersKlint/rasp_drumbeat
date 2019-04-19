@@ -6,6 +6,10 @@
 
 #define button_pin 18 // pin 12
 #define button2_pin 23 // pin 16
+#define button3_pin 24 // pin 18
+#define button4_pin 25 // pin 22
+#define button5_pin 17 // pin 11
+#define button6_pin 27 // pin 13
 
 static char *device = "default";                        /* playback device */
 snd_output_t *output = NULL;
@@ -71,8 +75,26 @@ int main(void)
 	pinMode(button2_pin, INPUT);
 	pullUpDnControl(button2_pin, PUD_UP);
 	
+	pinMode(button3_pin, INPUT);
+	pullUpDnControl(button3_pin, PUD_UP);
+	
+	pinMode(button4_pin, INPUT);
+	pullUpDnControl(button4_pin, PUD_UP);
+	
+	pinMode(button5_pin, INPUT);
+	pullUpDnControl(button5_pin, PUD_UP);
+	
+	pinMode(button6_pin, INPUT);
+	pullUpDnControl(button6_pin, PUD_UP);
+	
+	
+	
 	int prev_b1_state = 1;
 	int prev_b2_state = 1;
+	int prev_b3_state = 1;
+	int prev_b4_state = 1;
+	int prev_b5_state = 1;
+	int prev_b6_state = 1;
 		
 	while(1){
 		if(digitalRead(button_pin) == 0 && prev_b1_state == 1){
@@ -88,6 +110,34 @@ int main(void)
 		}
 		else if (digitalRead(button2_pin) == 1)
 			prev_b2_state = 1;
+			
+		if(digitalRead(button3_pin) == 0 && prev_b3_state == 1){
+			system("aplay -d 1 -c 32 /home/pi/Downloads/samples/hat.wav &");
+			prev_b3_state = 0;
+		}
+		else if (digitalRead(button3_pin) == 1)
+			prev_b3_state = 1;
+			
+		if(digitalRead(button4_pin) == 0 && prev_b4_state == 1){
+			system("aplay -d 1 -c 32 /home/pi/Downloads/samples/crash.wav &");
+			prev_b4_state = 0;
+		}
+		else if (digitalRead(button4_pin) == 1)
+			prev_b4_state = 1;
+			
+		if(digitalRead(button5_pin) == 0 && prev_b5_state == 1){
+			system("aplay -d 1 -c 32 /home/pi/Downloads/samples/perc.wav &");
+			prev_b5_state = 0;
+		}
+		else if (digitalRead(button5_pin) == 1)
+			prev_b5_state = 1;
+			
+		if(digitalRead(button6_pin) == 0 && prev_b6_state == 1){
+			system("aplay -c 32 /home/pi/Downloads/samples/melody.wav &");
+			prev_b6_state = 0;
+		}
+		else if (digitalRead(button6_pin) == 1)
+			prev_b6_state = 1;
 
 		delay(1);
 	}
